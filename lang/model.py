@@ -67,6 +67,7 @@ class lang:
         row = self.find_by_id(lang_id)
         if row:
             # Update the existing data with new one 
+            print(row)
             updated_data = json.loads(row['data'])
             updated_data.update(data)
             
