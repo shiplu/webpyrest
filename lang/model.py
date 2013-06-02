@@ -67,17 +67,15 @@ class lang:
         row = self.find_by_id(lang_id)
         if row:
             # Update the existing data with new one 
-            print(row)
-            updated_data = json.loads(row['data'])
-            updated_data.update(data)
+            row.update(data)
             
             # make sure we dont change the id in json text
             # though it does not matter. but for the sake of consistency
-            updated_data['lang_id'] = lang_id
-            updated_json = json.dumps(updated_data)
+            row['lang_id'] = lang_id
+            updated_json = json.dumps(row)
 
             
-            self.db.update(self.table, where="lang_id=$id", vars={'id': lang_id}, data=updated_json, name=updated_data['name'])
+            self.db.update(self.table, where="lang_id=$id", vars={'id': lang_id}, data=updated_json, name=row['name'])
 
             return self.find_by_id(lang_id)
         else:
