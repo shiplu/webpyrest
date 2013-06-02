@@ -1,5 +1,5 @@
 import web
-import lang
+from lang import controller
 
 #render = web.template.render('templates/')
 	
@@ -13,11 +13,11 @@ lang/view/3 will be be handled by lang.view class with parameter 3
 
 """
 urls = (
-  '/(\w*)/(create|delete|update)', '\\1.\\2',
-  '/(\w*)/(view|search)/(.*)', '\\1.\\2',
+  '/lang/(create)', 'lang.controller.\\1',
+  '/lang/(view|search|delete|update)/(.*)', 'lang.controller.\\1',
 )
 
-web.config.debug = False
+web.config.debug = True
 
 if __name__ == "__main__": 
     app = web.application(urls, globals())
