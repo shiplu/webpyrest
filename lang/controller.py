@@ -107,9 +107,9 @@ class search(crudbase):
     """
 
     def GET(self, op, name):
-        try:
-            ret = self.output(self.model.find_by_name(name))
-        except:
-            ret = self.error("Search Failed")
+        #try:
+        ret = self.output(self.model.find_by_name(name))
+        #except:
+            #ret = self.error("Search Failed")
         return ret
 
