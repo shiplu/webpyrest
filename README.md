@@ -6,12 +6,14 @@ The project shows how webpy can be used to implement a REST server.
 ##Installation
 
 1. Get [Web.Py](http://webpy.org/install)
-2. Run it by invoking
+2. Create a database with your favorite mysql admin console (phpmyadmin, mysql workbench etc)
+3. Load the sql file `schema.sql` on the database created on last step.
+4. Run the application by invoking
 
         python server.py  8080
 
     This will run the server on 8080 port
-3. Your REST server is ready. 
+5. Your REST server is ready. 
 
 
 
@@ -67,6 +69,9 @@ depending on the resource you are fetching.
 
 ###Examples
 
+Here are some examples that will get you started. Note JSON output is not pretty formatted 
+as shown bellow. Rather its a single line.
+
 1. Create a language
 
         $ curl -i  "http://localhost:8080/lang/create" -d "name=PHP5.5&appeard+in=2013&Developer=Zend"
@@ -110,3 +115,18 @@ depending on the resource you are fetching.
             "success": true
         }
 
+
+
+##Contribution
+
+If you like to contribute go ahead and fork.
+
+The source tree has different files.
+
+- `README.md` is this file
+- `config.py` contains application configuration. Currently it holds database connection information
+- `schema.py` contains mysql table definition
+- `server.py` the main server file. You need to run this file to start the server
+- `lang/controller.py` contains all the controller logic for the rest api. It retrieves data from model 
+    and shows it json format. 
+- `lang/model.py` contains the database access layer. Just read, write on language table
