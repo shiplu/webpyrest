@@ -16,15 +16,11 @@ class crudbase:
     """
 
     def __init__(self):
-
         self.model = model.lang()
-        
         # All the response will be in JSON by default
         web.header('Content-Type', 'application/json')
-        
         # Storing any POST data found on the request
         self.data = web.data()
-
 
     def output(self, data):
         """
@@ -56,16 +52,12 @@ class create(crudbase):
 
     def POST(self, op):
         inp = web.input(name='_')
-
-        
         if inp.name == '_':
             return self.error("name not provided")
-        
         try:
             ret = self.output(self.model.create(inp.name, dict(inp)))
         except:
             ret = self.error("Creation Failed")
-
         return ret
 
 class delete(crudbase):
@@ -74,7 +66,11 @@ class delete(crudbase):
     """
 
     def DELETE(self, op, lang_id):
-        return "delete  DELETE"
+        try:
+            ret = self.output(self.model.delete(lang_id))
+        except:
+            ret = self.error("Delete Failed")
+        return ret
 
 
 class update(crudbase):
@@ -83,7 +79,13 @@ class update(crudbase):
     """
 
     def POST(self, op, lang_id):
-        return "update POST"
+        inp = web.input()
+        #try:
+        ret = self.output(self.model.update(lang_id, dict(inp)))
+        #except:
+            #ret = self.error("Update Failed")
+        return ret
+
 
 
 class view(crudbase):

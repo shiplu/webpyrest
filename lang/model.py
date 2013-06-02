@@ -20,22 +20,24 @@ class lang:
         sq = self.db.insert(self.table, name=name, data=json.dumps(data))
         return self.find_by_id(sq)
 
-    def update(self, _id, data):
-        row = self.find_by_id(_id)
+
+    def update(self, lang_id, data):
+        row = self.find_by_id(lang_id)
         if row:
             # Update the existing data with new one 
-            data1 = json.loads(row['data'])
-            data2 = json.loads(data)
-            data1.update(data2)
+            updated_data = json.loads(row['data'])
+            updated_data.update(data)
             
             # make sure we dont change the id in json text
             # though it does not matter. but for the sake of consistency
-            data1['id'] = _id
+            updated_data['lang_id'] = lang_id
             
+            updated_json = json.dumps(updated_data)
+
             
-            var = dict(id=_id)
-            self.db.update(self.table, var, where="lang_id=$id", data=data1)
-            return self.find_by_id(_id)
+            self.db.update(self.table, where="lang_id=$id", vars={'id': lang_id}, data=updated_json)
+
+            return self.find_by_id(lang_id)
         else:
             return {}
 
@@ -43,7 +45,8 @@ class lang:
     def delete(self, _id):
 
         var = dict(id=_id)
-        return self.db.delete(self.table, var, limit=1, where="lang_id = $id")
+        self.db.delete(self.table, var, limit=1, where="lang_id = $id")
+        return {}
 
 
     def find_by_name(self, name):

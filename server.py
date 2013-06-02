@@ -15,7 +15,7 @@ lang/view/3 will be be handled by lang.view class with parameter 3
 urls = (
   '/lang/(create)', 'lang.controller.\\1',
   '/lang/(view|search|delete|update)/(.*)', 'lang.controller.\\1',
-)
+) 
 
 web.config.debug = True
 
