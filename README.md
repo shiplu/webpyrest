@@ -81,7 +81,7 @@ depending on the resource you are fetching.
 
 2. Search a language
 
-        $ curl  "http://localhost:7777/lang/search/php" 
+        $ curl  "http://localhost:8080/lang/search/php" 
         {
             "data": [
                 {
