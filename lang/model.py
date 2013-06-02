@@ -31,11 +31,10 @@ class lang:
             # make sure we dont change the id in json text
             # though it does not matter. but for the sake of consistency
             updated_data['lang_id'] = lang_id
-            
             updated_json = json.dumps(updated_data)
 
             
-            self.db.update(self.table, where="lang_id=$id", vars={'id': lang_id}, data=updated_json)
+            self.db.update(self.table, where="lang_id=$id", vars={'id': lang_id}, data=updated_json, name=updated_data['name'])
 
             return self.find_by_id(lang_id)
         else:
@@ -44,15 +43,13 @@ class lang:
 
     def delete(self, _id):
 
-        var = dict(id=_id)
-        self.db.delete(self.table, var, limit=1, where="lang_id = $id")
+        self.db.delete(self.table, vars={'id': _id}, where="lang_id = $id")
         return {}
 
 
     def find_by_name(self, name):
 
-        var = dict(name=name)
-        results = self.db.select(self.table, var, limit=1, where="name = $name")
+        results = self.db.select(self.table, vars={'name': name}, limit=1, where="name = $name")
         if results: 
             return results[0]
         else:
@@ -61,8 +58,7 @@ class lang:
 
     def find_by_id(self, _id):
 
-        var = dict(id=_id)
-        results = self.db.select(self.table, var, limit=1, where="lang_id = $id")
+        results = self.db.select(self.table, vars={'id': _id}, limit=1, where="lang_id = $id")
         
         if results: 
             return results[0]

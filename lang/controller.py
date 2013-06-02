@@ -66,10 +66,10 @@ class delete(crudbase):
     """
 
     def DELETE(self, op, lang_id):
-        try:
-            ret = self.output(self.model.delete(lang_id))
-        except:
-            ret = self.error("Delete Failed")
+        #try:
+        ret = self.output(self.model.delete(lang_id))
+        #except:
+            #ret = self.error("Delete Failed")
         return ret
 
 
@@ -80,10 +80,10 @@ class update(crudbase):
 
     def POST(self, op, lang_id):
         inp = web.input()
-        #try:
-        ret = self.output(self.model.update(lang_id, dict(inp)))
-        #except:
-            #ret = self.error("Update Failed")
+        try:
+            ret = self.output(self.model.update(lang_id, dict(inp)))
+        except:
+            ret = self.error("Update Failed")
         return ret
 
 
