@@ -65,3 +65,48 @@ depending on the resource you are fetching.
 
 
 
+###Examples
+
+1. Create a language
+
+        $ curl -i  "http://localhost:8080/lang/create" -d "name=PHP5.5&appeard+in=2013&Developer=Zend"
+        {
+            "data": {
+                "data": "{\"appeard in\": \"2013\", \"name\": \"PHP5.5\", \"Developer\": \"Zend\"}", 
+                "lang_id": 11, 
+                "name": "PHP5.5"
+            }, 
+            "success": true
+        }
+
+2. Search a language
+
+        $ curl  "http://localhost:7777/lang/search/php" 
+        {
+            "data": [
+                {
+                    "data": "{\"Paradigm[]\": \"functional\", \"Type\": \"Scripting\", \"name\": \"PHP\"}", 
+                    "lang_id": 10, 
+                    "name": "PHP"
+                }, 
+                {
+                    "data": "{\"appeard in\": \"2013\", \"name\": \"PHP5.5\", \"Developer\": \"Zend\"}", 
+                    "lang_id": 11, 
+                    "name": "PHP5.5"
+                }
+            ], 
+            "success": true
+        }
+
+3. Updates a language
+
+        $ curl -i  "http://localhost:8080/lang/update/11" -d "name=PHP5.4&appeard+in=2012"
+        {
+            "data": {
+                "data": "{\"appeard in\": \"2012\", \"name\": \"PHP5.4\", \"Developer\": \"Zend\"}", 
+                "lang_id": 11, 
+                "name": "PHP5.4"
+            }, 
+            "success": true
+        }
+
