@@ -8,12 +8,13 @@ The project shows how webpy can be used to implement a REST server.
 1. Get [Web.Py](http://webpy.org/install)
 2. Create a database with your favorite mysql admin console (phpmyadmin, mysql workbench etc)
 3. Load the sql file `schema.sql` on the database created on last step.
-4. Run the application by invoking
+4. Load the sql file `data.sql` same way
+5. Run the application by invoking
 
         python server.py  8080
 
     This will run the server on 8080 port
-5. Your REST server is ready. 
+6. Your REST server is ready. 
 
 
 
