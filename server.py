@@ -13,9 +13,11 @@ lang/view/3 will be be handled by lang.view class with parameter 3
 
 """
 urls = (
-  '/(\w*)/(create|delete|update)', '\1.\2'
-  '/(\w*)/(view|search)/(.*)', '\1.\2'
+  '/(\w*)/(create|delete|update)', '\\1.\\2',
+  '/(\w*)/(view|search)/(.*)', '\\1.\\2',
 )
+
+web.config.debug = False
 
 if __name__ == "__main__": 
     app = web.application(urls, globals())
