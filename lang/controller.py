@@ -2,15 +2,14 @@ import web
 import config
 import json
 import model
-
-
+import traceback
 
 """
 CRUD based REST API for 'lang' resource
 """
 
 
-class crudbase:
+class controller_base:
     """
     All the common tasks are performed here
     """
@@ -41,11 +40,16 @@ class crudbase:
             error = str,
             data = []
         )
-
         return json.dumps(data)
 
 
-class create(crudbase):
+    def default_error(self):
+        return self.error("Unknown error: Please wait or cotact who is responsible")
+
+
+
+
+class create(controller_base):
     """
     Creates language. Supports only POST method.
     """
@@ -56,24 +60,30 @@ class create(crudbase):
             return self.error("name not provided")
         try:
             ret = self.output(self.model.create(inp.name, dict(inp)))
+            return ret
         except:
-            ret = self.error("Creation Failed")
-        return ret
+            print traceback.format_exc()
+            return self.default_error()
+            raise
 
-class delete(crudbase):
+
+class delete(controller_base):
     """
     Deletes language. Supports only DELETE method.
     """
 
     def DELETE(self, op, lang_id):
-        #try:
-        ret = self.output(self.model.delete(lang_id))
-        #except:
-            #ret = self.error("Delete Failed")
-        return ret
+        try:
+            ret = self.output(self.model.delete(lang_id))
+            return ret
+        except:
+            print traceback.format_exc()
+            return self.default_error()
+            raise
 
 
-class update(crudbase):
+
+class update(controller_base):
     """
     Updates language. Supports only POST method.
     """
@@ -82,13 +92,16 @@ class update(crudbase):
         inp = web.input()
         try:
             ret = self.output(self.model.update(lang_id, dict(inp)))
+            return ret
         except:
-            ret = self.error("Update Failed")
-        return ret
+            print traceback.format_exc()
+            return self.default_error()
+            raise
 
 
 
-class view(crudbase):
+
+class view(controller_base):
     """
     Gets a language informaiton by its id. Supports only GET method.
     """
@@ -96,20 +109,26 @@ class view(crudbase):
     def GET(self, op, lang_id):
         try:
             ret = self.output(self.model.find_by_id(lang_id))
+            return ret
         except:
-            ret = self.error("Search Failed")
-        return ret
+            print traceback.format_exc()
+            return self.default_error()
+            raise
 
 
-class search(crudbase):
+
+class search(controller_base):
     """
     Searches for a language by name. Supports only GET method.
     """
 
     def GET(self, op, name):
-        #try:
-        ret = self.output(self.model.find_by_name(name))
-        #except:
-            #ret = self.error("Search Failed")
-        return ret
+        try:
+            ret = self.output(self.model.find_by_name(name))
+            return ret
+        except:
+            print traceback.format_exc()
+            return self.default_error()
+            raise
+
 

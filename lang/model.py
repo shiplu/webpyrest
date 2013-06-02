@@ -21,6 +21,18 @@ class lang:
  
  
  
+    def process_row(self, row):
+        """
+        Process a row. Decode the JSON and creats a proper dict
+        """
+
+        row_dict = dict(row)
+        data_dict = json.loads(row_dict['data'])
+        data_dict['lang_id'] = row_dict['lang_id']
+        data_dict['name'] = row_dict['name']
+        return data_dict
+
+
  
     
     def create(self, name, data):
@@ -100,7 +112,7 @@ class lang:
         if results: 
             ar = []
             for row in results:
-                ar.append(dict(row))
+                ar.append(self.process_row(row))
             return ar
         else:
             return []
@@ -118,7 +130,7 @@ class lang:
         results = self.db.select(self.table, vars={'id': _id}, limit=1, where="lang_id = $id")
         
         if results: 
-            return results[0]
+            return self.process_row(results[0])
         else:
             return {}
 
