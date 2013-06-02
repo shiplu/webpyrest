@@ -83,10 +83,6 @@ class lang:
 
 
 
-
-
-
-
     def delete(self, _id):
         """
         Deletes a language for given id
@@ -100,7 +96,7 @@ class lang:
 
 
 
-    def find_by_name(self, name):
+    def find_all_by_name(self, name):
         """
         Finds a language with a given name
         Returns: 
@@ -117,6 +113,20 @@ class lang:
             return []
 
 
+
+    def find_by_name(self, name):
+        """
+        Finds a language with a given name
+        Returns: 
+            language instance data
+        """
+        
+        results = self.db.select(self.table, vars={'name': name}, limit=1, where="name = $name")
+        
+        if results: 
+            return self.process_row(results[0])
+        else:
+            return {}
 
 
 

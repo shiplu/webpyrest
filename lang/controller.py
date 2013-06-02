@@ -3,6 +3,7 @@ import config
 import json
 import model
 import traceback
+import re
 
 """
 CRUD based REST API for 'lang' resource
@@ -48,31 +49,12 @@ class controller_base:
 
 
 
-
-class create(controller_base):
+class language(controller_base):
     """
-    Creates language. Supports only POST method.
+    Create, Delete and Read language with PUT, DELETE, GET method
     """
-
-    def POST(self, op):
-        inp = web.input(name='_')
-        if inp.name == '_':
-            return self.error("name not provided")
-        try:
-            ret = self.output(self.model.create(inp.name, dict(inp)))
-            return ret
-        except:
-            print traceback.format_exc()
-            return self.default_error()
-            raise
-
-
-class delete(controller_base):
-    """
-    Deletes language. Supports only DELETE method.
-    """
-
-    def DELETE(self, op, lang_id):
+    
+    def DELETE(self, lang_id):
         try:
             ret = self.output(self.model.delete(lang_id))
             return ret
@@ -82,13 +64,42 @@ class delete(controller_base):
             raise
 
 
+    def PUT(self, name):
+        
+        inp = web.input()
+        try:
+            ret = self.output(self.model.create(name, dict(inp)))
+            return ret
+        except:
+            print traceback.format_exc()
+            return self.default_error()
+            raise   
+
+
+    def GET(self, idorname):
+        """
+        Gets a language informaiton by its id or name. Supports only GET method.
+        """
+
+        try:
+            if re.match(r'^\d+$', idorname):
+                ret = self.output(self.model.find_by_id(idorname))
+            else:
+                ret = self.output(self.model.find_by_name(idorname))
+                
+            return ret
+        except:
+            print traceback.format_exc()
+            return self.default_error()
+            raise
+
 
 class update(controller_base):
     """
     Updates language. Supports only POST method.
     """
 
-    def POST(self, op, lang_id):
+    def POST(self, lang_id):
         inp = web.input()
         try:
             ret = self.output(self.model.update(lang_id, dict(inp)))
@@ -101,30 +112,15 @@ class update(controller_base):
 
 
 
-class view(controller_base):
-    """
-    Gets a language informaiton by its id. Supports only GET method.
-    """
-
-    def GET(self, op, lang_id):
-        try:
-            ret = self.output(self.model.find_by_id(lang_id))
-            return ret
-        except:
-            print traceback.format_exc()
-            return self.default_error()
-            raise
-
-
 
 class search(controller_base):
     """
     Searches for a language by name. Supports only GET method.
     """
 
-    def GET(self, op, name):
+    def GET(self, name):
         try:
-            ret = self.output(self.model.find_by_name(name))
+            ret = self.output(self.model.find_all_by_name(name))
             return ret
         except:
             print traceback.format_exc()

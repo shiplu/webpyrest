@@ -23,22 +23,16 @@ The project shows how webpy can be used to implement a REST server.
 
 There are 5 operation it supports. 
 
-1. `/lang/create`: Creates a new language. 
-2. `/lang/view/{id}`: Gets an existing language with a given `id`
-3. `/lang/search/{name}`: Gets a list of existing languages that has `name` in its name
-4. `/lang/update/{id}`: Updates a language given `id`.
-5. `/lang/delete/{id}`: Deletes a language given `id`.
+1. `PUT /lang/{name}`: Creates a new language. 
+2. `GET /lang/{id|name}`: Gets an existing language with a given `id` or `name`
+3. `GET /lang/search/{term}`: Gets a list of existing languages that has `term` in its `name`
+4. `POST /lang/{id}/update`: Updates a language given `id`.
+5. `DELETE /lang/{id}`: Deletes a language given `id`.
 
 
 ###Request
 
-We use `POST`, `GET`, `DELETE` request methods in following way.
-
-1. `create` and `update` requires `POST` request
-2. `search` and `view` requires `GET` request
-3. `delete` requires `DELETE` request
-
-The request body must be `application/x-www-form-urlencoded` formatted for POST.
+The request body must be `application/x-www-form-urlencoded` formatted for `POST`, `PUT`.
 For `GET`, its the url format on [usage](#usage) above.
 
 ###Response
@@ -75,30 +69,48 @@ as shown bellow. Rather its a single line.
 
 1. Create a language
 
-        $ curl -i  "http://localhost:8080/lang/create" -d "name=PHP5.5&appeard+in=2013&Developer=Zend"
+        $ curl   "http://127.0.0.1:8080/lang/ZPL"  -X PUT -d "Influenced+by=C&Developer=Chamberlain+et+al.+at+University+of+Washington"
         {
-            "data": {
-                "data": "{\"appeard in\": \"2013\", \"name\": \"PHP5.5\", \"Developer\": \"Zend\"}", 
-                "lang_id": 11, 
-                "name": "PHP5.5"
+            "data":         {
+                "Developer": "Chamberlain et al. at University of Washington", 
+                "Influenced by": "C", 
+                "lang_id": 429, 
+                "name": "ZPL"
             }, 
             "success": true
         }
 
 2. Search a language
 
-        $ curl  "http://localhost:8080/lang/search/php" 
+        $ curl   "http://127.0.0.1:8080/lang/search/java"
         {
             "data": [
                 {
-                    "data": "{\"Paradigm[]\": \"functional\", \"Type\": \"Scripting\", \"name\": \"PHP\"}", 
-                    "lang_id": 10, 
-                    "name": "PHP"
+                    "Appeared in": "1995 \u00a0( 1995 ) [ 1 ]", 
+                    "Designed by": "James Gosling and Sun Microsystems", 
+                    "Developer": "Oracle Corporation", 
+                    "Dialects": "Generic Java , Pizza", 
+                    "Implementation language": "C and C++", 
+                    "Influenced": "Ada 2005 , BeanShell , C# , Clojure , D , ECMAScript , Groovy , J# , JavaScript , PHP , Python , Scala , Seed7 , Vala", 
+                    "Influenced by": "Ada 83 , C++ , C# , [ 2 ] Eiffel , [ 3 ] Generic Java , Mesa , [ 4 ] Modula-3 , [ 5 ] Oberon , [ 6 ] Objective-C , [ 7 ] UCSD Pascal , [ 8 ] [ 9 ] Smalltalk", 
+                    "License": "GNU General Public License , Java Community Process", 
+                    "Major implementations": "OpenJDK , many others", 
+                    "OS": "Cross-platform (multi-platform)", 
+                    "Paradigm(s)": "multi-paradigm : object-oriented , structured , imperative , generic , reflective", 
+                    "Stable release": "Java Standard Edition 7 Update 21 (1.7.21) (April\u00a016,\u00a02013 ; 47 days ago \u00a0( 2013-04-16 ) )", 
+                    "Typing discipline": "Static, strong, safe , nominative , manifest", 
+                    "Usual filename extensions": ".java, .class, .jar", 
+                    "lang_id": 197, 
+                    "name": "Java"
                 }, 
                 {
-                    "data": "{\"appeard in\": \"2013\", \"name\": \"PHP5.5\", \"Developer\": \"Zend\"}", 
-                    "lang_id": 11, 
-                    "name": "PHP5.5"
+                    "Developer": "Sun Microsystems", 
+                    "License": "GPL", 
+                    "OS": "Cross-platform", 
+                    "Platform": "Java Runtime Environment", 
+                    "Stable release": "1.2 (June\u00a02,\u00a02009 \u00a0( 2009-06-02 ) )", 
+                    "lang_id": 205, 
+                    "name": "JavaFX Script"
                 }
             ], 
             "success": true
